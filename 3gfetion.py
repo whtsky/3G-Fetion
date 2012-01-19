@@ -86,6 +86,10 @@ class Browser(QWidget):
         self.webView.load(QUrl('http://f.10086.cn/im5/index/html5.action'))
         self.show()
         self.unread = 0
+        
+    def __del__(self):
+        request = QNetworkRequest(QUrl('http://f.10086.cn/im/index/logoutsubmit.action'))
+        self.reply = self.network_manager.get(request)
 
 if __name__ == '__main__':
     app = QApplication([])
