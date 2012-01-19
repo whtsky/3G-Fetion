@@ -72,9 +72,9 @@ class Browser(QWidget):
         self.trayIcon.setToolTip(self.iconComboBox.itemText(index))
         
     def closeEvent(self,event):
-        # 判断是否为最小化事件
         self.hide()
         self.trayIcon.show()
+        self.webView.load(QUrl('http://f.10086.cn/im5/index/html5.action'))#防止遗漏消息
         event.ignore()
         self.checkmessage()
         
