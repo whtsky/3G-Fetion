@@ -5,7 +5,7 @@ mobile = '手机号'
 password = '密码'
 status = '在线状态' #在线：1；隐身：4；忙碌：2；离开：3
 
-notifyfile = 'msg.wav'#提示音的文件名
+notifyfile = 'msg.mp3'#提示音的文件名
 
 if len(mobile) == 11 and mobile.isdigit():
     data = 'm=%s&pass=%s&loginstatus=%s' % (mobile,password,status)
