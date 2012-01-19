@@ -33,6 +33,44 @@ class Browser(QWidget):
             self.reply.finished.connect(self.logindone)
         else:
             self.logindone()
+            
+        self.iconComboBox = QComboBox()
+        self.iconComboBox.addItem(QIcon('fetion.ico'), 'Fetion')
+        
+        #设置菜单及行为
+        self.restoreAction = QAction(u'显示窗口', self,triggered=self.showNormal)
+        self.quitAction = QAction(u'退出', self,triggered=qApp.quit)
+        self.trayIconMenu = QMenu(self)
+        self.trayIconMenu.addAction(self.restoreAction)
+        self.trayIconMenu.addAction(self.quitAction)
+        self.trayIcon = QSystemTrayIcon(self)
+        self.trayIcon.setContextMenu(self.trayIconMenu)
+
+        #设置通知区域的ICON
+        self.iconComboBox.currentIndexChanged.connect(self.setIcon)
+        #通知区域icon显示
+        self.iconComboBox.setCurrentIndex(1)
+        self.trayIcon.activated.connect(self.iconActivated)
+        
+    def iconActivated(self, reason):
+        if reason in (QSystemTrayIcon.Trigger,QSystemTrayIcon.DoubleClick):
+            self.showNormal()
+ 
+    def setIcon(self, index):
+        icon = self.iconComboBox.itemIcon(0)
+        self.trayIcon.setIcon(icon)
+        self.setWindowIcon(icon)
+        self.trayIcon.setToolTip(self.iconComboBox.itemText(index))
+        
+    def closeEvent(self,event):
+        # 判断是否为最小化事件
+        self.hide()
+        self.trayIcon.show()
+        event.ignore()
+        
+    def showNormal(self):
+        QWidget.showNormal(self)
+        self.trayIcon.hide()
         
     '''
     def checkup(self):
@@ -46,7 +84,7 @@ class Browser(QWidget):
         self.webView.load(QUrl('http://f.10086.cn/im5/index/html5.action'))
         self.show()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = QApplication([])
     ui = Browser()
     app.exec_()
