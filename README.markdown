@@ -1,4 +1,4 @@
 3G Fetion
 ==========
 
-Ò»¸öÊ¹ÓÃPython+PySideÖÆ×÷µÄ3G Fetion¿Í»§¶Ë¡£
+ä¸€ä¸ªä½¿ç”¨Python+PySideåˆ¶ä½œçš„3G Fetionå®¢æˆ·ç«¯ã€‚
