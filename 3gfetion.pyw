@@ -50,7 +50,7 @@ class Browser(QWidget):
         self.trayIcon.activated.connect(self.iconActivated)
         
         #提示音
-        self.notify = Phonon.createPlayer(Phonon.MusicCategory,Phonon.MediaSource(config.notifyfile))
+        self.notify = Phonon.createPlayer(Phonon.MusicCategory)
         
     def iconActivated(self, reason):
         if reason in (QSystemTrayIcon.Trigger,QSystemTrayIcon.DoubleClick):
@@ -66,7 +66,7 @@ class Browser(QWidget):
             return None
         unread = int(self.reply.readAll()[15:-1])
         if unread>0 and unread!=self.unread:#有新消息
-            self.notify.stop()
+            self.notify.setCurrentSource(Phonon.MediaSource(config.notifyfile))
             self.notify.play()
             self.trayIcon.showMessage(u'提示',u'您有%s条未读飞信信息，请及时回复' % unread, QSystemTrayIcon.MessageIcon(),1000)
             self.unread = unread
@@ -87,6 +87,8 @@ class Browser(QWidget):
         self.checkmessage()
         
     def showNormal(self):
+        if self.unread > 0:
+            self.webView.load(QUrl('http://f.10086.cn/im5/box/msgList.action'))#自动转到消息盒子
         QWidget.showNormal(self)
         self.trayIcon.hide()
 
